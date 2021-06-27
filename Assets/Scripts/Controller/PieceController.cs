@@ -22,6 +22,7 @@ namespace GameProject.TrickyTowers.Controller
         private bool _disableUpdate;
         private PlayerAreaBoundaries _bounds;
         private Collider2D _collider2D;
+        private float _rotation;
 
         public void Activate()
         {
@@ -39,32 +40,48 @@ namespace GameProject.TrickyTowers.Controller
 
         public void Rotate()
         {
+            if (_disableUpdate)
+                return;
+
             _collider2D.transform.Rotate(Vector3.forward, 90f);
+            _rotation = _collider2D.transform.eulerAngles.z;
         }
 
         private void Update()
         {
-            if (_disableUpdate)
-                return;
-
             if (_rigidBody.transform.position.y <= _bounds.LimitBottom.position.y)
             {
                 DestroyPiece();
+                return;
             }
-            else if (_rigidBody.transform.position.y < _lastPosition.y)
+
+            if (_disableUpdate)
+                return;
+
+            if (_collider2D.transform.eulerAngles.z != _rotation)
+            {
+                DisableInput();
+                return;
+            }
+
+            if (_rigidBody.transform.position.y < _lastPosition.y)
             {
                 _lastPosition = _rigidBody.transform.position;
                 _time = 0;
+                return;
             }
-            else
+
+            _time += Time.fixedDeltaTime;
+            if (_time >= 1)
             {
-                _time += Time.fixedDeltaTime;
-                if (_time >= 1)
-                {
-                    _disableUpdate = true;
-                    OnMoveFinished?.Invoke(this);
-                }
+                DisableInput();
             }
+        }
+
+        private void DisableInput()
+        {
+            _disableUpdate = true;
+            OnMoveFinished?.Invoke(this);
         }
 
         private void DestroyPiece()

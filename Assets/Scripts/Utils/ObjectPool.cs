@@ -35,6 +35,7 @@ namespace GameProject.TrickyTowers.Utils
             var obj = _recycledObjects.Count > 0 ? _recycledObjects.Dequeue() : null;
             if (obj != null)
             {
+                obj.ResetToDefault();
                 obj.Activate();
                 return obj;
             }
