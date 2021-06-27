@@ -72,6 +72,8 @@ namespace GameProject.TrickyTowers.Controller
             _rigidBody.angularDrag = physicsConfig.AngularDrag;
             _rigidBody.drag = physicsConfig.LinearDrag;
             _rigidBody.gravityScale = 0;
+            _rigidBody.sharedMaterial = pieceConfig.PhysicsMaterial2D;
+            _rigidBody.GetComponent<Collider2D>().sharedMaterial = pieceConfig.PhysicsMaterial2D;
             _bounds = bounds;
             _constantForce.force = new Vector2(0, -physicsConfig.GravityForce);
             _initialPosition = _rigidBody.transform.position;

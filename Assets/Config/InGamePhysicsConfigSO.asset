@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: InGamePhysicsConfigSO
   m_EditorClassIdentifier: 
   _gravityForce: 600
-  _linearDrag: 2
-  _angularDrag: 1
+  _linearDrag: 7
+  _angularDrag: 2

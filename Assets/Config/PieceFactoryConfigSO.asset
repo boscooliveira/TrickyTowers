@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7848541b8ce604997bbb3395df44d7, type: 3}
   m_Name: PieceFactoryConfigSO
   m_EditorClassIdentifier: 
-  _defaultMass: 10
+  _horizontalMoveDistance: 0.25
+  _defaultMass: 50
+  _physicsMaterial2D: {fileID: 6200000, guid: d48be3d7f93f5a747a2210d8e9bebcd2, type: 2}
   _pieces:
   - _pieceType: 6
     _prefab: {fileID: 7372773165123463733, guid: 2a4d317d75b61d544bcddd16f726d6be, type: 3}
@@ -28,11 +30,11 @@ MonoBehaviour:
     _massMultiplyier: 1
   - _pieceType: 1
     _prefab: {fileID: -1819186744874641813, guid: af5123e6718611d4191bcb801c3affec, type: 3}
-    _drawProbability: 1
+    _drawProbability: 50
     _massMultiplyier: 1
   - _pieceType: 2
     _prefab: {fileID: -2994397753850407508, guid: 9d152d841d37b894dbb2d4a4d1a07000, type: 3}
-    _drawProbability: 1
+    _drawProbability: 50
     _massMultiplyier: 1
   - _pieceType: 5
     _prefab: {fileID: 6346508411007463476, guid: 81acb8f8c4d18c741aa2ed54b9fd5e36, type: 3}
@@ -40,5 +42,5 @@ MonoBehaviour:
     _massMultiplyier: 1
   - _pieceType: 0
     _prefab: {fileID: -3320105102804670859, guid: feb85d5c263699e4e93d6967f3bc89d5, type: 3}
-    _drawProbability: 1
+    _drawProbability: 50
     _massMultiplyier: 1

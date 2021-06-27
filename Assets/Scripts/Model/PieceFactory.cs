@@ -33,7 +33,7 @@ namespace GameProject.TrickyTowers.Model
 
         private PieceController CreateNewPiece(PieceConfig config, PlayerAreaBoundaries bounds)
         {
-            var obj = Object.Instantiate(config.Prefab, bounds.SpawnerPosition);
+            var obj = Object.Instantiate(config.Prefab, bounds.SpawnerPosition, false);
             obj.SetConfig(_pieceConfig, _physicsConfig, bounds);
             return obj;
         }

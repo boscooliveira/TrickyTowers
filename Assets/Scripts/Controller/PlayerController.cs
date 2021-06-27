@@ -19,8 +19,11 @@ namespace GameProject.TrickyTowers.Controller
 
         private PieceController _currentPiece;
 
+        private IPieceFactoryConfig _config;
+
         public void Initialize(IPieceFactoryConfig config, IPhysicsConfig physicsConfig)
         {
+            _config = config;
             _pieceFactory = new PieceFactory(config, _bounds, physicsConfig);
         }
 
@@ -41,6 +44,16 @@ namespace GameProject.TrickyTowers.Controller
         {
             if (_currentPiece == (object)controller)
                 CreateNewPiece();
+        }
+
+        public void MovePiece(float direction)
+        {
+            if (_currentPiece == null)
+                return;
+
+            var position = _currentPiece.transform.position;
+            position.x += direction * _config.HorizontalMoveDistance;
+            _currentPiece.transform.position = position;
         }
     }
 }
