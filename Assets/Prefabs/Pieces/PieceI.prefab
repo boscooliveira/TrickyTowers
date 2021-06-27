@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1275027904763344867}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.25, y: 6.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6360427952347420023}
   m_RootOrder: 0
@@ -138,8 +138,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6360427952347420023}
   - component: {fileID: 3259831380917788988}
-  - component: {fileID: 7043697598205924679}
+  - component: {fileID: 6321530531478551011}
   - component: {fileID: 2464396452644994046}
+  - component: {fileID: 4276749906347639582}
   m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
@@ -183,8 +184,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7043697598205924679
-BoxCollider2D:
+--- !u!60 &6321530531478551011
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -192,23 +193,26 @@ BoxCollider2D:
   m_GameObject: {fileID: 8956479725520153239}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: d48be3d7f93f5a747a2210d8e9bebcd2, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 1}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.16, y: 0.64}
     newSize: {x: 0.16, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.97, y: 3.97}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.49, y: 1.96}
+      - {x: -0.49, y: -1.96}
+      - {x: 0.49, y: -1.96}
+      - {x: 0.49, y: 1.96}
 --- !u!247 &2464396452644994046
 ConstantForce2D:
   m_ObjectHideFlags: 0
@@ -220,3 +224,23 @@ ConstantForce2D:
   m_Force: {x: 0, y: 0}
   m_RelativeForce: {x: 0, y: 0}
   m_Torque: 0
+--- !u!250 &4276749906347639582
+PointEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956479725520153239}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceMagnitude: -10
+  m_ForceVariation: 0
+  m_DistanceScale: 1
+  m_ForceSource: 0
+  m_ForceTarget: 0
+  m_ForceMode: 0
+  m_Drag: 0
+  m_AngularDrag: 0

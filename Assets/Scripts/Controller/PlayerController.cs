@@ -20,10 +20,12 @@ namespace GameProject.TrickyTowers.Controller
         private PieceController _currentPiece;
 
         private IPieceFactoryConfig _config;
+        private float _pace;
 
         public void Initialize(IPieceFactoryConfig config, IPhysicsConfig physicsConfig)
         {
             _config = config;
+            _pace = _config.SlowPace;
             _pieceFactory = new PieceFactory(config, _bounds, physicsConfig);
         }
 
@@ -32,7 +34,7 @@ namespace GameProject.TrickyTowers.Controller
             CreateNewPiece();
         }
 
-        public void RotatePiece(float x)
+        public void RotatePiece()
         {
             if (_currentPiece == null)
                 return;
@@ -43,24 +45,41 @@ namespace GameProject.TrickyTowers.Controller
         private void CreateNewPiece()
         {
             var piece = _pieceFactory.CreatePiece();
+            _currentPiece = piece;
             piece.OnMoveFinished += OnPieceMoveFinished;
             piece.OnDisabled += OnPieceMoveFinished;
-            _currentPiece = piece;
         }
 
         private void OnPieceMoveFinished(IPoolableItem controller)
         {
             if (_currentPiece == (object)controller)
+            {
+                _currentPiece.SetSpeed(_config.SlowPace);
                 CreateNewPiece();
+            }
         }
 
-        public void MovePiece(float direction)
+        public void MovePiece(Vector2 input)
         {
             if (_currentPiece == null)
                 return;
-
+            
             var position = _currentPiece.transform.position;
-            position.x += direction * _config.HorizontalMoveDistance;
+            position.x += input.x * _config.HorizontalMoveDistance;
+            if (input.y < 0)
+            {
+                if (_currentPiece.Pace != _config.FastPace)
+                {
+                    _currentPiece.SetSpeed(_config.FastPace);
+                }
+            }
+            else
+            {
+                if (_currentPiece.Pace != _config.SlowPace)
+                {
+                    _currentPiece.SetSpeed(_config.SlowPace);
+                }
+            }
             _currentPiece.transform.position = position;
         }
     }

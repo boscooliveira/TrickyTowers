@@ -9,6 +9,8 @@ namespace GameProject.TrickyTowers.Config
     {
         float HorizontalMoveDistance { get; }
         float DefaultMass { get; }
+        float SlowPace { get; }
+        float FastPace { get; }
         PhysicsMaterial2D PhysicsMaterial2D { get; }
         List<PieceConfig> Pieces { get; }
     }
@@ -23,6 +25,12 @@ namespace GameProject.TrickyTowers.Config
         private float _defaultMass = 10;
 
         [SerializeField]
+        private float _slowPace = 1;
+
+        [SerializeField]
+        private float _fastPace = 3;
+
+        [SerializeField]
         private PhysicsMaterial2D _physicsMaterial2D;
 
         [SerializeField]
@@ -32,6 +40,8 @@ namespace GameProject.TrickyTowers.Config
         public float DefaultMass => _defaultMass;
         public PhysicsMaterial2D PhysicsMaterial2D => _physicsMaterial2D;
         public List<PieceConfig> Pieces => _pieces;
+        public float SlowPace => _slowPace;
+        public float FastPace => _fastPace;
     }
 
     [Serializable]
