@@ -32,6 +32,14 @@ namespace GameProject.TrickyTowers.Controller
             CreateNewPiece();
         }
 
+        public void RotatePiece(float x)
+        {
+            if (_currentPiece == null)
+                return;
+
+            _currentPiece.Rotate();
+        }
+
         private void CreateNewPiece()
         {
             var piece = _pieceFactory.CreatePiece();

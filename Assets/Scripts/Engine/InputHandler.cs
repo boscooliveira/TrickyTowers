@@ -21,5 +21,13 @@ namespace GameProject.TrickyTowers.Engine
             InputVector = ctx.ReadValue<Vector2>();
             _playerController?.MovePiece(InputVector.normalized.x);
         }
+
+        public void OnFireInput(CallbackContext ctx)
+        {
+            if (ctx.phase == UnityEngine.InputSystem.InputActionPhase.Started)
+            {
+                _playerController?.RotatePiece(InputVector.normalized.x);
+            }
+        }
     }
 }

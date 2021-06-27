@@ -652,7 +652,19 @@ MonoBehaviour:
     m_ActionId: 0c82e926-1ace-46e5-8e36-0b179eb1cfa1
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 614689778702027242}
+        m_TargetAssemblyTypeName: GameProject.TrickyTowers.Engine.InputHandler, Assembly-CSharp
+        m_MethodName: OnFireInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9f938681-7a7f-4ebf-b376-9c00d0ad5eb2
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:

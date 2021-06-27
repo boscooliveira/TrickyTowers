@@ -21,6 +21,7 @@ namespace GameProject.TrickyTowers.Controller
         private float _time;
         private bool _disableUpdate;
         private PlayerAreaBoundaries _bounds;
+        private Collider2D _collider2D;
 
         public void Activate()
         {
@@ -34,6 +35,11 @@ namespace GameProject.TrickyTowers.Controller
             _lastPosition = _initialPosition;
             _disableUpdate = false;
             _time = 0;
+        }
+
+        public void Rotate()
+        {
+            _collider2D.transform.Rotate(Vector3.forward, 90f);
         }
 
         private void Update()
@@ -73,7 +79,8 @@ namespace GameProject.TrickyTowers.Controller
             _rigidBody.drag = physicsConfig.LinearDrag;
             _rigidBody.gravityScale = 0;
             _rigidBody.sharedMaterial = pieceConfig.PhysicsMaterial2D;
-            _rigidBody.GetComponent<Collider2D>().sharedMaterial = pieceConfig.PhysicsMaterial2D;
+            _collider2D = _rigidBody.GetComponent<Collider2D>();
+            _collider2D.sharedMaterial = pieceConfig.PhysicsMaterial2D;
             _bounds = bounds;
             _constantForce.force = new Vector2(0, -physicsConfig.GravityForce);
             _initialPosition = _rigidBody.transform.position;
