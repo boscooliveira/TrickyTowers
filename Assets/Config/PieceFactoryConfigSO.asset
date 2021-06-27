@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7848541b8ce604997bbb3395df44d7, type: 3}
+  m_Name: PieceFactoryConfigSO
+  m_EditorClassIdentifier: 
+  _defaultMass: 10
+  _pieces:
+  - _pieceType: 6
+    _prefab: {fileID: 7372773165123463733, guid: 2a4d317d75b61d544bcddd16f726d6be, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 3
+    _prefab: {fileID: 8956139191523929312, guid: ebb2c720b14023c448f88652445709bd, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 4
+    _prefab: {fileID: -3982159589187923638, guid: a4a46fd5a2d5980489b7f0ef12b39143, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 1
+    _prefab: {fileID: -1819186744874641813, guid: af5123e6718611d4191bcb801c3affec, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 2
+    _prefab: {fileID: -2994397753850407508, guid: 9d152d841d37b894dbb2d4a4d1a07000, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 5
+    _prefab: {fileID: 6346508411007463476, guid: 81acb8f8c4d18c741aa2ed54b9fd5e36, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
+  - _pieceType: 0
+    _prefab: {fileID: -3320105102804670859, guid: feb85d5c263699e4e93d6967f3bc89d5, type: 3}
+    _drawProbability: 1
+    _massMultiplyier: 1
