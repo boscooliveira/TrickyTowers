@@ -38,7 +38,7 @@ namespace GameProject.TrickyTowers.Model
             return obj;
         }
 
-        public PieceController CreatePiece()
+        public PieceController GetPiece()
         {
             if (Mathf.Approximately(_sumProbabilities, 0) || _sumProbabilities < 0)
             {

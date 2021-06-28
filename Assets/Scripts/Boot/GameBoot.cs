@@ -15,7 +15,7 @@ namespace GameProject.TrickyTowers.Boot
         [SerializeField]
         private int _initialSceneIndex;
 
-        private void Start()
+        private void Awake()
         {
             InjectServices();
             UnityEngine.SceneManagement.SceneManager.LoadScene(_initialSceneIndex);

@@ -9,6 +9,8 @@ namespace GameProject.TrickyTowers.Controller
 {
     public class PlayerController : MonoBehaviour
     {
+        public event Action<PieceController> OnPieceChanged;
+
         [SerializeField]
         private PlayerAreaBoundaries _bounds;
 
@@ -44,10 +46,11 @@ namespace GameProject.TrickyTowers.Controller
 
         private void CreateNewPiece()
         {
-            var piece = _pieceFactory.CreatePiece();
+            var piece = _pieceFactory.GetPiece();
             _currentPiece = piece;
             piece.OnMoveFinished += OnPieceMoveFinished;
             piece.OnDisabled += OnPieceMoveFinished;
+            OnPieceChanged?.Invoke(piece);
         }
 
         private void OnPieceMoveFinished(IPoolableItem controller)
