@@ -1,14 +1,15 @@
 using UnityEngine;  
 using GameProject.TrickyTowers.Utils;
 using GameProject.TrickyTowers.Config;
+using GameProject.TrickyTowers.Controller.PieceState;
 using System;
 
 namespace GameProject.TrickyTowers.Controller
 {
     public class PieceController : MonoBehaviour, IPoolableItem
     {
-        public const float DELAY_BETWEEN_PIECES = 0.5f;
-        public const float POSITION_STUCK_TIME = 1f;
+        public const float DELAY_BETWEEN_PIECES = 0.7f;
+        public const float POSITION_STUCK_TIME = 0.1f;
 
         public event System.Action<PieceController> OnMoveFinished;
         public event Action<IPoolableItem> OnDisabled;
@@ -30,8 +31,13 @@ namespace GameProject.TrickyTowers.Controller
         private float _delayToDisableUpdate;
         private IPieceFactoryConfig _config;
         private IPhysicsConfig _physicsConfig;
+        private bool _wasInited;
 
-        public float Pace { get; private set; }
+        private float _pace { get; set; }
+
+        private IPieceState _beforePlaceState;
+        private IPieceState _afterPlaceState;
+        private IPieceState _currentState;
 
         public void Activate()
         {
@@ -41,6 +47,7 @@ namespace GameProject.TrickyTowers.Controller
         public void ResetToDefault()
         {
             SetSpeed(_config.SlowPace);
+            SetBeforePlacedPhysics();
             _rigidBody.transform.position = _initialPosition;
             _rigidBody.transform.rotation = Quaternion.identity;
             _rotation = _collider2D.transform.eulerAngles.z;
@@ -49,6 +56,11 @@ namespace GameProject.TrickyTowers.Controller
             _disableInput = false;
             _stuckTime = 0;
             _delayToDisableUpdate = 0;
+        }
+
+        public Bounds GetBounds()
+        {
+            return _collider2D.bounds;
         }
 
         public void Rotate()
@@ -101,15 +113,50 @@ namespace GameProject.TrickyTowers.Controller
             }
         }
 
+        public void Move(Vector2 input)
+        {
+            if (_disableInput || _disableUpdate)
+                return;
+
+            var position = transform.position;
+            position.x += input.x * _config.HorizontalMoveDistance;
+            if (input.y < 0)
+            {
+                if (_pace != _config.FastPace)
+                {
+                    SetSpeed(_config.FastPace);
+                }
+            }
+            else
+            {
+                if (_pace != _config.SlowPace)
+                {
+                    SetSpeed(_config.SlowPace);
+                }
+            }
+            transform.position = position;
+        }
+
         public void SetSpeed(float pace)
         {
-            Pace = pace;
-            _rigidBody.velocity = Vector3.down*10;
-            _constantForce.force = new Vector2(0, -_physicsConfig.GravityForce * pace);
+            _currentState.SetSpeed(pace);
+        }
+
+        private void SetAfterPlacedPhysics()
+        {
+            _currentState = _afterPlaceState;
+            _currentState.Activate();
+        }
+
+        private void SetBeforePlacedPhysics()
+        {
+            _currentState = _beforePlaceState;
+            _currentState.Activate();
         }
 
         private void DisableInput()
         {
+            SetAfterPlacedPhysics();
             _delayToDisableUpdate = 0;
             _disableInput = true;
         }
@@ -126,105 +173,27 @@ namespace GameProject.TrickyTowers.Controller
             OnDisabled?.Invoke(this);
         }
 
-        private float GetMinDist(Vector2[] points, Vector2 shift)
-        {
-            float minHitDist = 0;
-            bool noHit = true;
-
-            foreach (Vector2 point in points)
-            {
-                RaycastHit2D hit = Physics2D.Raycast(point + shift, Vector2.down);
-                if (hit.collider != null)
-                {
-                    if (noHit || hit.distance < minHitDist)
-                    {
-                        minHitDist = hit.distance;
-                        noHit = false;
-                    }
-                }
-            }
-
-            return noHit ? float.NaN : minHitDist;
-        }
-
-        private bool GetMinDist(Vector2[] points, Vector2 shift, out int hits, out float maxHitDist)
-        {
-            maxHitDist = 0;
-            hits = 0;
-            bool noHit = true;
-
-            foreach (Vector2 point in points)
-            {
-                RaycastHit2D hit = Physics2D.Raycast(point+shift, Vector2.down);
-                if (hit.collider != null)
-                {
-                    if (noHit || hit.distance > maxHitDist)
-                    {
-                        hits = 1;
-                        maxHitDist = hit.distance;
-                        noHit = false;
-                    }
-                    else if (Mathf.Approximately(hit.distance, maxHitDist))
-                    {
-                        hits++;
-                    }
-                }
-            }
-
-            return !noHit;
-        }
-
-        //public Vector2 GetMoveAssistPosition(Vector2 desiredPos)
-        //{
-        //    Vector2 newPos = desiredPos;
-        //    Vector2 bestPos = desiredPos;
-        //    Vector2[] points = _collider2D.points;
-
-        //    for (int i = 0; i < points.Length; i++)
-        //    {
-        //        var worldPosition = _collider2D.transform.TransformPoint(points[i]);
-        //        points[i] = worldPosition;
-        //    }
-
-        //    int bestHits;
-        //    float bestDist;
-        //    GetMinDist(points, newPos - (Vector2)(_collider2D.transform.position), out bestHits, out bestDist);
-
-        //    for (float i = -0.25f; i < 0.25f; i += 0.125f/11)
-        //    {
-        //        newPos.x = desiredPos.x + i;
-        //        int hits;
-        //        float dist;
-        //        if (!GetMinDist(points, newPos - (Vector2)(_collider2D.transform.position), out hits,out dist))
-        //        {
-        //            continue;
-        //        }
-
-        //        if (bestHits == hits && bestDist < dist)
-        //        {
-        //            bestHits = hits;
-        //            bestDist = dist;
-        //            bestPos = newPos;
-        //        }
-        //    }
-
-        //    return bestPos;
-        //}
-
         public void SetConfig(IPieceFactoryConfig pieceConfig, IPhysicsConfig physicsConfig, PlayerAreaBoundaries bounds)
         {
-            _config = pieceConfig;
-            _physicsConfig = physicsConfig;
-            _rigidBody.angularDrag = physicsConfig.AngularDrag;
-            _rigidBody.drag = physicsConfig.LinearDrag;
-            _rigidBody.gravityScale = 0;
-            _rigidBody.sharedMaterial = pieceConfig.PhysicsMaterial2D;
-            _collider2D = _rigidBody.GetComponent<PolygonCollider2D>();
-            _collider2D.sharedMaterial = pieceConfig.PhysicsMaterial2D;
-            _bounds = bounds;
-            _constantForce.force = new Vector2(0, -physicsConfig.GravityForce);
-            _initialPosition = _rigidBody.transform.position;
-            _lastPosition = _initialPosition;
+            if (!_wasInited)
+            {
+                _wasInited = true;
+                _collider2D = _rigidBody.GetComponent<PolygonCollider2D>();
+                _config = pieceConfig;
+                _physicsConfig = physicsConfig;
+
+                _rigidBody.sharedMaterial = pieceConfig.PhysicsMaterial2D;
+                _collider2D.sharedMaterial = pieceConfig.PhysicsMaterial2D;
+
+                _bounds = bounds;
+                _initialPosition = transform.position;
+                _lastPosition = _initialPosition;
+                _beforePlaceState = new PieceStateImpl(_physicsConfig.BeforePlacedPhysics, _rigidBody, _constantForce);
+                _afterPlaceState = new PieceStateImpl(_physicsConfig.AfterPlacedPhysics, _rigidBody, _constantForce);
+                _currentState = _beforePlaceState;
+            }
+
+            SetBeforePlacedPhysics();
             SetSpeed(_config.SlowPace);
         }
 

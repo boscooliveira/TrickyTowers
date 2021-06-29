@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0edcf327037e342ba288e1166ff2d1, type: 3}
   m_Name: InGamePhysicsConfigSO
   m_EditorClassIdentifier: 
-  _gravityForce: 600
-  _linearDrag: 6
-  _angularDrag: 3
+  _beforePlacedPhysics:
+    _mass: 2
+    _constGravityForce: 40
+    _linearDrag: 8
+    _angularDrag: 0
+    _contraints: 4
+  _afterPlacedPhysics:
+    _mass: 10
+    _constGravityForce: 200
+    _linearDrag: 8
+    _angularDrag: 10
+    _contraints: 0

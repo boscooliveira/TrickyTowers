@@ -15,6 +15,9 @@ namespace GameProject.TrickyTowers.Controller
         private PlayerAreaBoundaries _bounds;
 
         [SerializeField]
+        private Transform _pieceHighlight;
+
+        [SerializeField]
         private InputHandler _input;
 
         private PieceFactory _pieceFactory;
@@ -31,6 +34,11 @@ namespace GameProject.TrickyTowers.Controller
             _pieceFactory = new PieceFactory(config, _bounds, physicsConfig);
         }
 
+        private void Awake()
+        {
+            _pieceHighlight.gameObject.SetActive(false);
+        }
+
         private void Start()
         {
             CreateNewPiece();
@@ -42,6 +50,7 @@ namespace GameProject.TrickyTowers.Controller
                 return;
 
             _currentPiece.Rotate();
+            UpdateHighLight();
         }
 
         private void CreateNewPiece()
@@ -50,7 +59,23 @@ namespace GameProject.TrickyTowers.Controller
             _currentPiece = piece;
             piece.OnMoveFinished += OnPieceMoveFinished;
             piece.OnDisabled += OnPieceMoveFinished;
+            _pieceHighlight.gameObject.SetActive(true);
+            UpdateHighLight();
             OnPieceChanged?.Invoke(piece);
+        }
+
+        private void UpdateHighLight()
+        {
+            var bounds = _currentPiece.GetBounds();
+            var highlightTransform = _pieceHighlight.transform;
+            highlightTransform.position = bounds.center;
+
+            Vector3 scale = new Vector3
+            {
+                x = bounds.size.x / highlightTransform.parent.lossyScale.x,
+                y = highlightTransform.localScale.y
+            };
+            highlightTransform.localScale = scale;
         }
 
         private void OnPieceMoveFinished(IPoolableItem controller)
@@ -66,24 +91,9 @@ namespace GameProject.TrickyTowers.Controller
         {
             if (_currentPiece == null)
                 return;
-            
-            var position = _currentPiece.transform.position;
-            position.x += input.x * _config.HorizontalMoveDistance;
-            if (input.y < 0)
-            {
-                if (_currentPiece.Pace != _config.FastPace)
-                {
-                    _currentPiece.SetSpeed(_config.FastPace);
-                }
-            }
-            else
-            {
-                if (_currentPiece.Pace != _config.SlowPace)
-                {
-                    _currentPiece.SetSpeed(_config.SlowPace);
-                }
-            }
-            _currentPiece.transform.position = position;
+
+            _currentPiece.Move(input);
+            UpdateHighLight();
         }
     }
 }
