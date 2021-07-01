@@ -196,6 +196,9 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
 
         private void OnPieceMoveFinished(IPoolableItem controller)
         {
+            if (_playerData.Lives == 0)
+                return;
+
             if (_currentPiece == (object)controller)
             {
                 _currentPiece.SetSpeed(_config.SlowPace);
