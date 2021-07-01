@@ -7,6 +7,7 @@ namespace GameProject.TrickyTowers.Service
     {
         IPieceFactoryConfig PieceConfig { get; }
         IPhysicsConfig PhysicsConfig { get; }
+        IGameplayConfig GameplayConfig { get; }
     }
     
     public class GameConfigService : MonoBehaviour, IGameConfigService
@@ -17,7 +18,11 @@ namespace GameProject.TrickyTowers.Service
         [SerializeField]
         private InGamePhysicsConfigSO _inGamePhysicsConfigSO;
 
+        [SerializeField]
+        private GameplayConfigSO _gameplayConfigSO;
+
         public IPieceFactoryConfig PieceConfig => _pieceFactoryConfigSO;
         public IPhysicsConfig PhysicsConfig => _inGamePhysicsConfigSO;
+        public IGameplayConfig GameplayConfig => _gameplayConfigSO;
     }
 }

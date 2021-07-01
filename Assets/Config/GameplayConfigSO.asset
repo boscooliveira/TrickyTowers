@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d424f8ebee79ae44db61db1fb17ca465, type: 3}
+  m_Name: GameplayConfigSO
+  m_EditorClassIdentifier: 
+  _initialLives: 3
+  _ghostSecsAfterHit: 2
+  _goalHeight: 20

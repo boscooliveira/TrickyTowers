@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7848541b8ce604997bbb3395df44d7, type: 3}
   m_Name: PieceFactoryConfigSO
   m_EditorClassIdentifier: 
-  _horizontalMoveDistance: 0.5
+  _horizontalMoveDistance: 0.75
   _slowPace: 1.5
   _fastPace: 8
   _physicsMaterial2D: {fileID: 6200000, guid: d48be3d7f93f5a747a2210d8e9bebcd2, type: 2}

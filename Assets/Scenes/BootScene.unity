@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _proxy: {fileID: 1353574217}
   _configService: {fileID: 1353574219}
-  _initialSceneIndex: 2
 --- !u!4 &1140864225
 Transform:
   m_ObjectHideFlags: 0
@@ -212,6 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061f077e07c152849ac3efc9357ede9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuSceneIndex: 1
+  _gameSceneIndex: 2
 --- !u!4 &1353574218
 Transform:
   m_ObjectHideFlags: 0
@@ -240,3 +241,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pieceFactoryConfigSO: {fileID: 11400000, guid: 33677ded59b964946ac27ec2c6954efa, type: 2}
   _inGamePhysicsConfigSO: {fileID: 11400000, guid: 181aa70af8eec8c47acda504d2c79363, type: 2}
+  _gameplayConfigSO: {fileID: 11400000, guid: e51027214f27dfc45b1ea74c55052388, type: 2}

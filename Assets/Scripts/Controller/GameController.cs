@@ -1,22 +1,73 @@
 using UnityEngine;
 using GameProject.TrickyTowers.Service;
+using GameProject.TrickyTowers.Engine;
+using GameProject.TrickyTowers.Model;
 
 namespace GameProject.TrickyTowers.Controller
 {
     public class GameController : MonoBehaviour
     {
+        public delegate void OnGameOverDelegate(PlayerData player, PlayerController controller);
+        [SerializeField]
+        private PlayerController _playerControllerPrefab;
+
         [SerializeField]
         private PlayerController _player1;
 
         [SerializeField]
-        private PlayerController _aiPlayer;
+        private Transform _gameOverScreen;
+
+        [SerializeField]
+        private Transform _pauseScreen;
+
+        private GameData _gameData;
+
+        private void OnGameOver(PlayerData player, PlayerController controller)
+        {
+            controller.enabled = false;
+
+            if (player.Lives == 0 && player.Input != EPlayerInputType.Player1)
+                return; // ignore CPU lose
+
+            _gameOverScreen?.gameObject.SetActive(true);
+        }
+
+        public void Pause()
+        {
+            _pauseScreen.gameObject.SetActive(true);
+            Physics2D.simulationMode = SimulationMode2D.Script;
+        }
+
+        public void Continue()
+        {
+            _pauseScreen.gameObject.SetActive(false);
+            Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+        }
+
+        public void Menu()
+        {
+            _pauseScreen.gameObject.SetActive(false);
+            Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+            ServiceFactory.Instance.Resolve<IUnityProxy>().EnterMenuScene();
+        }
 
         private void Start()
         {
             var configService = ServiceFactory.Instance.Resolve<IGameConfigService>();
+            var gameplayService = ServiceFactory.Instance.Resolve<IGameplayService>();
             var pieceConfig = configService.PieceConfig;
             var physicsConfig = configService.PhysicsConfig;
-            _player1.Initialize(pieceConfig, physicsConfig);
+            _gameData = gameplayService.GetGameData();
+
+
+            _player1.Initialize(pieceConfig, physicsConfig, gameplayService, _gameData.Player, OnGameOver);
+            if (_gameData.Opponent != null)
+            {
+                var playerController = Instantiate(_playerControllerPrefab);
+                playerController.transform.position = new Vector3(0, 1000, 0);
+                playerController.Initialize(pieceConfig, physicsConfig, gameplayService, _gameData.Opponent, OnGameOver);
+                playerController.SetSmallCameraProperties();
+            }
         }
     }
 }

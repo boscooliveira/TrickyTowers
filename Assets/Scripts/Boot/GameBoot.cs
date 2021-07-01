@@ -12,19 +12,17 @@ namespace GameProject.TrickyTowers.Boot
         [SerializeField]
         private GameConfigService _configService;
 
-        [SerializeField]
-        private int _initialSceneIndex;
-
         private void Awake()
         {
             InjectServices();
-            UnityEngine.SceneManagement.SceneManager.LoadScene(_initialSceneIndex);
+            _proxy.EnterMenuScene();
         }
 
         private void InjectServices()
         {
             ServiceFactory.Instance.Register<IUnityProxy>(_proxy);
             ServiceFactory.Instance.Register<IGameConfigService>(_configService);
+            ServiceFactory.Instance.Register<IGameplayService>(new GameplayService(_configService));
         }
     }
 }

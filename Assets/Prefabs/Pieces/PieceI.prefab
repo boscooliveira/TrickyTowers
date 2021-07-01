@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 3259831380917788988}
   _constantForce: {fileID: 2464396452644994046}
+  _spriteRenderer: {fileID: 757734877472596807}
 --- !u!1 &8956479725520153239
 GameObject:
   m_ObjectHideFlags: 0

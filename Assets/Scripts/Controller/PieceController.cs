@@ -9,7 +9,8 @@ namespace GameProject.TrickyTowers.Controller
     public class PieceController : MonoBehaviour, IPoolableItem
     {
         public const float DELAY_BETWEEN_PIECES = 0.7f;
-        public const float POSITION_STUCK_TIME = 0.1f;
+        public const float POSITION_STUCK_TIME = 0.2f;
+        public const float MIN_MOVE_Y = 0.1f;
 
         public event System.Action<PieceController> OnMoveFinished;
         public event Action<IPoolableItem> OnDisabled;
@@ -19,6 +20,11 @@ namespace GameProject.TrickyTowers.Controller
 
         [SerializeField]
         private ConstantForce2D _constantForce;
+
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer;
+
+        public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
         private Vector3 _initialPosition;
         private Vector3 _lastPosition;
@@ -72,7 +78,7 @@ namespace GameProject.TrickyTowers.Controller
             _rotation = _collider2D.transform.eulerAngles.z;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_rigidBody.transform.position.y <= _bounds.LimitBottom.position.y)
             {
@@ -99,7 +105,7 @@ namespace GameProject.TrickyTowers.Controller
                 return;
             }
 
-            if (_rigidBody.transform.position.y < _lastPosition.y)
+            if (_rigidBody.transform.position.y < (_lastPosition.y - MIN_MOVE_Y))
             {
                 _lastPosition = _rigidBody.transform.position;
                 _stuckTime = 0;
@@ -197,7 +203,7 @@ namespace GameProject.TrickyTowers.Controller
             SetSpeed(_config.SlowPace);
         }
 
-        // Adjust collider bounds to snap into multiples of a Unity`s unit size
+        // Snap collider bounds to grid
         [ContextMenu("PolygonCollider2DSnapHelper")]
         void PolygonColliderSnapHelper()
         {
