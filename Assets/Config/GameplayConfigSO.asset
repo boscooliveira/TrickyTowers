@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: 
   _initialLives: 3
-  _ghostSecsAfterHit: 2
+  _ghostSecsAfterHit: 4
   _goalHeight: 20

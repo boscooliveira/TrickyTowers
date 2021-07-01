@@ -163,11 +163,14 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
         private void PieceLost(IPoolableItem obj)
         {
             GetHit();
-            OnPieceMoveFinished(obj);
 
             if (_playerData.Lives == 0)
             {
                 GameOver();
+            }
+            else
+            {
+                OnPieceMoveFinished(obj);
             }
         }
 
