@@ -7,7 +7,7 @@ namespace GameProject.TrickyTowers.Controller
 {
     public class GameController : MonoBehaviour
     {
-        public delegate void OnGameOverDelegate(PlayerData player, PlayerController controller);
+        public delegate void OnGameOverDelegate(IPlayerData player, PlayerController controller);
         [SerializeField]
         private PlayerController _playerControllerPrefab;
 
@@ -20,9 +20,9 @@ namespace GameProject.TrickyTowers.Controller
         [SerializeField]
         private Transform _pauseScreen;
 
-        private GameData _gameData;
+        private IGameData _gameData;
 
-        private void OnGameOver(PlayerData player, PlayerController controller)
+        private void OnGameOver(IPlayerData player, PlayerController controller)
         {
             controller.enabled = false;
 

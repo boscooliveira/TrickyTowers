@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace GameProject.TrickyTowers.Model.AIAlgorithm
 {
-    public class RandomTargetAIAlgorithm : IAIAlgorithm
+    public class RandomTargetAI: IAIAlgorithm
     {
         private const float MAX_THINKING_TIME = 3f;
         private PolygonCollider2D _collider;
@@ -12,7 +12,7 @@ namespace GameProject.TrickyTowers.Model.AIAlgorithm
         private float _minPosX;
         private float _maxPosX;
 
-        public RandomTargetAIAlgorithm(float minPosX, float maxPosX)
+        public RandomTargetAI(float minPosX, float maxPosX)
         {
             _minPosX = minPosX;
             _maxPosX = maxPosX;

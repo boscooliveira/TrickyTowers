@@ -1,6 +1,6 @@
 ﻿namespace GameProject.TrickyTowers.Model
 {
-    public class PlayerData
+    public class PlayerData : IPlayerData
     {
         public EPlayerInputType Input { get; private set; }
         public int Lives { get; private set; }

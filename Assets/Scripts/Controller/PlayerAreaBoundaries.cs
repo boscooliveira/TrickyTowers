@@ -9,5 +9,6 @@ namespace GameProject.TrickyTowers.Controller
         public Transform LimitLeft;
         public Transform LimitRight;
         public Transform LimitBottom;
+        public Transform Goal;
     }
 }

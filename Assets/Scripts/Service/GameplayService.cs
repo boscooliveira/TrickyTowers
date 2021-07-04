@@ -5,12 +5,12 @@ namespace GameProject.TrickyTowers.Service
     public interface IGameplayService
     {
         void StartNewGame(bool multiplayer);
-        GameData GetGameData();
+        IGameData GetGameData();
     }
 
     public class GameplayService : IGameplayService
     {
-        private GameData _gameData;
+        private IGameData _gameData;
         private readonly IGameConfigService _config;
 
         public GameplayService(IGameConfigService config)
@@ -18,7 +18,7 @@ namespace GameProject.TrickyTowers.Service
             _config = config;
         }
 
-        public GameData GetGameData()
+        public IGameData GetGameData()
         {
             return _gameData;
         }

@@ -37,6 +37,15 @@ namespace GameProject.TrickyTowers.Config
         public List<PieceConfig> Pieces => _pieces;
         public float SlowPace => _slowPace;
         public float FastPace => _fastPace;
+
+        public void CopyValues(IPieceFactoryConfig other)
+        {
+            _horizontalMoveDistance = other.HorizontalMoveDistance;
+            _slowPace = other.SlowPace;
+            _fastPace = other.FastPace;
+            _physicsMaterial2D = other.PhysicsMaterial2D;
+            _pieces = new List<PieceConfig>(other.Pieces);
+        }
     }
 
     [Serializable]

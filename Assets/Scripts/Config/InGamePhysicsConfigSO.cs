@@ -37,12 +37,21 @@ namespace GameProject.TrickyTowers.Config
         private float _angularDrag = 1;
 
         [SerializeField]
-        private RigidbodyConstraints2D _contraints;
+        private RigidbodyConstraints2D _constraints;
 
         public float Mass => _mass;
         public float GravityForce => _constGravityForce;
         public float LinearDrag => _linearDrag;
         public float AngularDrag => _angularDrag;
-        public RigidbodyConstraints2D Constraints => _contraints;
+        public RigidbodyConstraints2D Constraints => _constraints;
+
+        public void CopyValues(PiecePhysics other)
+        {
+            _mass = other.Mass;
+            _constGravityForce = other.GravityForce;
+            _linearDrag = other.LinearDrag;
+            _angularDrag = other.AngularDrag;
+            _constraints = other.Constraints;
+        }
     }
 }

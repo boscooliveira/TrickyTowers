@@ -3458,38 +3458,6 @@ PrefabInstance:
       propertyPath: _nextPieceRenderer
       value: 
       objectReference: {fileID: 1033695212}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 94236862793246864}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnFireInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameProject.TrickyTowers.Engine.InputHandler, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3268248119581874668, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
       propertyPath: m_RootOrder
       value: 2

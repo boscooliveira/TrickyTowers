@@ -5,7 +5,9 @@ using GameProject.TrickyTowers.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 using System;
+using System.Collections.Generic;
 using GameProject.TrickyTowers.Model.AIAlgorithm;
 
 namespace GameProject.TrickyTowers.Controller
@@ -48,22 +50,34 @@ namespace GameProject.TrickyTowers.Controller
         private PieceController _currentPiece;
         private PieceController _nextPiece;
 
+        private HashSet<IPoolableItem> _placedPieces;
+
         private IPieceFactoryConfig _config;
         private float _ghostTime;
         private IGameplayConfig _gameplayConfig;
 
-        private PlayerData _playerData;
+        private IPlayerData _playerData;
         private GameController.OnGameOverDelegate _onGameOver;
 
-        public void Initialize(IPieceFactoryConfig config, IPhysicsConfig physicsConfig,
-Service.IGameplayService gameplayService, PlayerData playerData, GameController.OnGameOverDelegate onGameOver)
+        public void Initialize(IPieceFactoryConfig pieceFactoryConfig, IPhysicsConfig physicsConfig,
+Service.IGameplayService gameplayService, IPlayerData playerData, GameController.OnGameOverDelegate onGameOver)
         {
+            _placedPieces = new HashSet<IPoolableItem>();
             _onGameOver = onGameOver;
-            _config = config;
+            _config = pieceFactoryConfig;
             _gameplayConfig = gameplayService.GetGameData().Config;
-            _pieceFactory = new PieceFactory(config, _bounds, physicsConfig);
+            _pieceFactory = new PieceFactory(pieceFactoryConfig, _bounds, physicsConfig);
             SetupPlayer(playerData);
             DisplayLife();
+        }
+
+        public float GetPileHeight()
+        {
+            if (_placedPieces.Count == 0)
+                return _bounds.LimitBottom.position.y;
+
+            var maxY = _placedPieces.Max(i => ((PieceController)i).gameObject.transform.position.y);
+            return Mathf.Max(maxY, _bounds.LimitBottom.position.y);
         }
 
         public void SetSmallCameraProperties()
@@ -71,7 +85,7 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
             _camera.targetTexture = _renderTexture;
         }
 
-        private void SetupPlayer(PlayerData playerData)
+        private void SetupPlayer(IPlayerData playerData)
         {
             _playerData = playerData;
             switch (playerData.Input)
@@ -81,10 +95,8 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
                     break;
 
                 case EPlayerInputType.RandomTargetAI:
-                    _aiInput.enabled = true;                    
-                    var aiLogic = new RandomTargetAIAlgorithm(
-                        _baseMinPosX.transform.position.x, 
-                        _baseMaxPosX.transform.position.x);
+                    _aiInput.enabled = true;
+                    var aiLogic = new RandomTargetAI(_baseMinPosX.transform.position.x, _baseMaxPosX.transform.position.x);
                     _aiInput.SetAlgorithm(aiLogic);
                     break;
 
@@ -140,6 +152,11 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
             _pieceHighlight.gameObject.SetActive(true);
             UpdateHighLight();
             OnPieceChanged?.Invoke(piece);
+
+            var minY = GetPileHeight() + _gameplayConfig.SpawnerMinDistance;
+            var position = _camera.transform.position;
+            position.y = Mathf.Max(position.y, minY);
+            _camera.transform.position = position;
         }
 
         private void GetHit()
@@ -162,6 +179,7 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
 
         private void PieceLost(IPoolableItem obj)
         {
+            _placedPieces.Remove(obj);
             GetHit();
 
             if (_playerData.Lives == 0)
@@ -201,6 +219,7 @@ Service.IGameplayService gameplayService, PlayerData playerData, GameController.
 
             if (_currentPiece == (object)controller)
             {
+                _placedPieces.Add(_currentPiece);
                 _currentPiece.SetSpeed(_config.SlowPace);
                 CreateNewPiece();
             }
