@@ -50,6 +50,12 @@ namespace GameProject.TrickyTowers.Controller
             gameObject.SetActive(true);
         }
 
+        public float GetPieceHeight()
+        {
+            return _rigidBody.position.y;
+        }
+
+
         public void ResetToDefault()
         {
             SetSpeed(_config.SlowPace);

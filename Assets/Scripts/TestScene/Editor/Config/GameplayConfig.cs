@@ -20,13 +20,20 @@ namespace GameProject.TrickyTowers.TestScene.Editor.Config
         {
             using (var scope = new EditorGUILayout.VerticalScope("Box"))
             {
-                EditorWindowHelper.EditIntValue("Initial Lives", gameplayConfig.InitialLives, gameplayConfig.SetInitialLives);
+                bool changed = false;
+                changed |= EditorWindowHelper.EditIntValue("Initial Lives", gameplayConfig.InitialLives, gameplayConfig.SetInitialLives);
                 if (EditorWindowHelper.EditFloatValue("Goal Height", gameplayConfig.GoalHeight, gameplayConfig.SetGoalHeight) ||
                     EditorWindowHelper.EditFloatValue("Spawner Distance To Highest Piece", gameplayConfig.SpawnerHeight, gameplayConfig.SetSpawnerMinDistance))
                 {
+                    changed = true;
                     controller.UpdatePositions(gameplayConfig.GoalHeight, gameplayConfig.SpawnerHeight);
                 }
-                EditorWindowHelper.EditFloatValue("Invunerable Time After Hit", gameplayConfig.GhostSecsAfterHit, gameplayConfig.SetGhostSecsAfterHit);
+                changed |= EditorWindowHelper.EditFloatValue("Invunerable Time After Hit", gameplayConfig.GhostSecsAfterHit, gameplayConfig.SetGhostSecsAfterHit);
+
+                if (changed)
+                {
+                    EditorUtility.SetDirty(gameplayConfig);
+                }
             }
         }
     }

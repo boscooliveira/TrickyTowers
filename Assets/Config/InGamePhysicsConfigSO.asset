@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _beforePlacedPhysics:
     _mass: 2
-    _constGravityForce: 40
+    _constGravityForce: 80
     _linearDrag: 5
-    _angularDrag: 0
-    _contraints: 4
+    _angularDrag: 1
+    _constraints: 0
   _afterPlacedPhysics:
     _mass: 10
     _constGravityForce: 200
     _linearDrag: 5
     _angularDrag: 2
-    _contraints: 0
+    _constraints: 0

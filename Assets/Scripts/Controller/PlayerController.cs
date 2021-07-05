@@ -45,8 +45,6 @@ namespace GameProject.TrickyTowers.Controller
         [SerializeField]
         private TextMeshProUGUI _livesText;
 
-        public PlayerAreaBoundaries Bounds => _bounds;
-
         private PieceFactory _pieceFactory;
         private PieceController _currentPiece;
         private PieceController _nextPiece;
@@ -65,6 +63,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             _config = pieceFactoryConfig;
             _gameplayConfig = gameplayService.GetGameData().Config;
             _pieceFactory = new PieceFactory(pieceFactoryConfig, _bounds, physicsConfig);
+            UpdatePositions(_gameplayConfig.GoalHeight, _gameplayConfig.SpawnerHeight);
             SetupPlayer(playerData);
             DisplayLife();
         }
@@ -74,7 +73,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             if (_placedPieces.Count == 0)
                 return _bounds.LimitBottom.position.y;
 
-            var maxY = _placedPieces.Max(i => ((PieceController)i).gameObject.transform.position.y);
+            var maxY = _placedPieces.Max(i => ((PieceController)i).GetPieceHeight());
             return Mathf.Max(maxY, _bounds.LimitBottom.position.y);
         }
 
@@ -90,9 +89,11 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             {
                 case EPlayerInputType.Player1:
                     _input.enabled = true;
+                    _aiInput.enabled = false;
                     break;
 
                 case EPlayerInputType.RandomTargetAI:
+                    _input.enabled = false;
                     _aiInput.enabled = true;
                     var aiLogic = new RandomTargetAI(_baseMinPosX.transform.position.x, _baseMaxPosX.transform.position.x);
                     _aiInput.SetAlgorithm(aiLogic);
@@ -189,6 +190,19 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             {
                 OnPieceMoveFinished(obj);
             }
+        }
+
+        public void UpdatePositions(float goalHeight, float spawnerHeight)
+        {
+            var bottom = _bounds.LimitBottom.position;
+
+            var position = _bounds.Goal.position;
+            position.y = bottom.y + goalHeight;
+            _bounds.Goal.position = position;
+
+            position = _bounds.SpawnerPosition.position;
+            position.y = bottom.y + spawnerHeight;
+            _bounds.SpawnerPosition.position = position;
         }
 
         private void GameOver()

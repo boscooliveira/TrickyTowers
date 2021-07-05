@@ -138,8 +138,6 @@ GameObject:
   m_Component:
   - component: {fileID: 744095531}
   - component: {fileID: 744095532}
-  - component: {fileID: 744095534}
-  - component: {fileID: 744095535}
   m_Layer: 0
   m_Name: TestScene
   m_TagString: Untagged
@@ -179,30 +177,6 @@ MonoBehaviour:
   PieceFactoryConfigSO: {fileID: 11400000, guid: 33677ded59b964946ac27ec2c6954efa, type: 2}
   SimulationInput: 1
   _physicsMaterial2D: {fileID: 6200000, guid: d48be3d7f93f5a747a2210d8e9bebcd2, type: 2}
---- !u!114 &744095534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 744095530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae60cd726bf3744f9ba5413091bd3df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &744095535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 744095530}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb966be5e52daf845a8f9ba5fe8bc672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &911118470
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +244,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 94236862793246865, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614689778702027242, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}

@@ -12,21 +12,24 @@ namespace GameProject.TrickyTowers.TestScene.Editor.Config
             using (var scope = new EditorGUILayout.VerticalScope())
             {
                 EditorGUILayout.HelpBox("Physics Properties For Incoming Piece", MessageType.Info);
-                EditPhysicsGroup(controller.BeforePlacedPhysics);
+                EditPhysicsGroup(controller, controller.InGamePhysicsConfigSO.BeforePlacedPhysics);
                 EditorGUILayout.Space();
                 EditorGUILayout.HelpBox("Physics Properties For Ragdoll Pieces", MessageType.Info);
-                EditPhysicsGroup(controller.AfterPlacedPhysics);
+                EditPhysicsGroup(controller, controller.InGamePhysicsConfigSO.AfterPlacedPhysics);
             }
         }
 
-        private void EditPhysicsGroup(PiecePhysics piecePhysics)
+        private void EditPhysicsGroup(TestSceneController controller, PiecePhysics piecePhysics)
         {
             using (var scope = new EditorGUILayout.VerticalScope("Box"))
             {
-                EditorWindowHelper.EditFloatValue("AngularDrag", piecePhysics.AngularDrag, piecePhysics.SetAngularDrag);
-                EditorWindowHelper.EditFloatValue("LinearDrag", piecePhysics.LinearDrag, piecePhysics.SetLinearDrag);
-                EditorWindowHelper.EditFloatValue("Mass", piecePhysics.Mass, piecePhysics.SetMass);
-                EditorWindowHelper.EditFloatValue("Gravity", piecePhysics.GravityForce, piecePhysics.SetGravity);
+                bool changed = false;
+                changed |= EditorWindowHelper.EditFloatValue("AngularDrag", piecePhysics.AngularDrag, piecePhysics.SetAngularDrag);
+                changed |= EditorWindowHelper.EditFloatValue("LinearDrag", piecePhysics.LinearDrag, piecePhysics.SetLinearDrag);
+                changed |= EditorWindowHelper.EditFloatValue("Mass", piecePhysics.Mass, piecePhysics.SetMass);
+                changed |= EditorWindowHelper.EditFloatValue("Gravity", piecePhysics.GravityForce, piecePhysics.SetGravity);
+                if (changed)
+                    EditorUtility.SetDirty(controller.InGamePhysicsConfigSO);
             }
         }
     }

@@ -53,15 +53,7 @@ namespace GameProject.TrickyTowers.TestScene
 
         public void UpdatePositions(float goalHeight, float spawnerHeight)
         {
-            var bottom = PlayerController.Bounds.LimitBottom.position;
-            
-            var position = PlayerController.Bounds.Goal.position;
-            position.y = bottom.y + goalHeight;
-            PlayerController.Bounds.Goal.position = position;
-
-            position = PlayerController.Bounds.SpawnerPosition.position;
-            position.y = bottom.y + spawnerHeight;
-            PlayerController.Bounds.SpawnerPosition.position = position;
+            PlayerController.UpdatePositions(goalHeight, spawnerHeight);
         }
 
         private void RegisterServices()
@@ -70,12 +62,6 @@ namespace GameProject.TrickyTowers.TestScene
             ServiceFactory.Instance.Register<IGameConfigService>(this);
             _gameplay = new GameplayService(this);
             ServiceFactory.Instance.Register<IGameplayService>(_gameplay);
-
-            if (SimulationInput == EPlayerInputType.RandomTargetAI)
-            {
-                GetComponent<ForceSceneView>().enabled = true;
-            }
-
             _gameplay.StartNewGame(false);
             PlayerController.Initialize(PieceConfig, this, _gameplay, new TestPlayer(SimulationInput), OnGameOver);
             PlayerController.gameObject.SetActive(true);

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: 
   _initialLives: 3
-  _ghostSecsAfterHit: 4
-  _goalHeight: 20
-  _pawnerMinDistance: 10
+  _ghostSecsAfterHit: 5
+  _goalHeight: 65
+  _spawnerHeight: 95

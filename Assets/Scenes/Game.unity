@@ -1457,6 +1457,7 @@ MonoBehaviour:
   _player1: {fileID: 861821815}
   _gameOverScreen: {fileID: 611400777}
   _pauseScreen: {fileID: 1450301605}
+  _opponentView: {fileID: 0}
 --- !u!4 &839468698
 Transform:
   m_ObjectHideFlags: 0
@@ -3246,12 +3247,12 @@ GameObject:
   - component: {fileID: 2107071843}
   - component: {fileID: 2107071842}
   m_Layer: 5
-  m_Name: Image
+  m_Name: OpponentView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2107071841
 RectTransform:
   m_ObjectHideFlags: 0

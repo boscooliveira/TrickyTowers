@@ -20,6 +20,9 @@ namespace GameProject.TrickyTowers.Controller
         [SerializeField]
         private Transform _pauseScreen;
 
+        [SerializeField]
+        private Transform _opponentView;
+
         private IGameData _gameData;
 
         private void OnGameOver(IPlayerData player, PlayerController controller)
@@ -63,6 +66,7 @@ namespace GameProject.TrickyTowers.Controller
             _player1.Initialize(pieceConfig, physicsConfig, gameplayService, _gameData.Player, OnGameOver);
             if (_gameData.Opponent != null)
             {
+                _opponentView.gameObject.SetActive(true);
                 var playerController = Instantiate(_playerControllerPrefab);
                 playerController.transform.position = new Vector3(0, 1000, 0);
                 playerController.Initialize(pieceConfig, physicsConfig, gameplayService, _gameData.Opponent, OnGameOver);

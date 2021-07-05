@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GameProject.TrickyTowers.Model.AIAlgorithm;
 
 namespace GameProject.TrickyTowers.Controller
@@ -47,7 +46,7 @@ namespace GameProject.TrickyTowers.Controller
         private void Update()
         {
             _inputWait -= Time.deltaTime;
-            if (_collider == null || _inputWait > 0)
+            if (_collider == null || _aiAlgorithm == null || _inputWait > 0)
                 return;
 
             _inputWait = 1 / INPUT_PER_SECOND;
@@ -55,6 +54,11 @@ namespace GameProject.TrickyTowers.Controller
             if (Mathf.Abs(_collider.transform.position.x - _aiAlgorithm.GetCurrentTarget().x) > _moveDistance)
             {
                 _playerController.MovePiece(_aiAlgorithm.GetNextMoveIntent());
+            }
+
+            if (_aiAlgorithm.GetRotationIntent())
+            {
+                _playerController.GetPiece().Rotate();
             }
         }
     }

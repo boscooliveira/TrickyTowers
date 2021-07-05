@@ -11,6 +11,7 @@ namespace GameProject.TrickyTowers.Model.AIAlgorithm
         private float _bestRotation;
         private float _minPosX;
         private float _maxPosX;
+        private int _rotationsLeft;
 
         public RandomTargetAI(float minPosX, float maxPosX)
         {
@@ -23,24 +24,24 @@ namespace GameProject.TrickyTowers.Model.AIAlgorithm
             _collider = pieceCollider;
         }
 
-        private void ReCalculateTarget(int iteration, ref int rotationsLeft)
+        private void ReCalculateTarget(int iteration)
         {
-            if (iteration <= rotationsLeft || Random.value > 0.5f)
+            if (iteration <= _rotationsLeft || Random.value > 0.5f)
             {
                 _bestRotation += 90;
-                rotationsLeft--;
+                _rotationsLeft--;
             }
             _bestPosX = Random.Range(_minPosX, _maxPosX);
         }
 
         public IEnumerator UpdateCoroutine()
         {
-            int rotationsLeft = Random.Range(0, 4);
+            _rotationsLeft = Random.Range(0, 4);
 
             for (int i = 1; i < 4; i++)
             {
                 yield return new WaitForSeconds(Random.Range(0.5f, MAX_THINKING_TIME));
-                ReCalculateTarget(i, ref rotationsLeft);
+                ReCalculateTarget(i);
             }
         }
 
@@ -51,7 +52,7 @@ namespace GameProject.TrickyTowers.Model.AIAlgorithm
 
         public bool GetRotationIntent()
         {
-            return _collider.transform.rotation.eulerAngles.z != _bestRotation;
+            return (Mathf.DeltaAngle(_collider.transform.rotation.eulerAngles.z, _bestRotation) < 90);
         }
 
         public Vector2 GetNextMoveIntent()
