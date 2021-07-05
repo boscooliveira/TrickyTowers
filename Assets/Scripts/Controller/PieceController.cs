@@ -86,7 +86,9 @@ namespace GameProject.TrickyTowers.Controller
 
         private void FixedUpdate()
         {
-            if (_rigidBody.transform.position.y <= _bounds.LimitBottom.position.y)
+            if (_rigidBody.transform.position.y <= _bounds.LimitBottom.position.y ||
+                _rigidBody.transform.position.x > _bounds.LimitRight.position.x
+                || _rigidBody.transform.position.x < _bounds.LimitLeft.position.x)
             {
                 DestroyPiece();
                 return;
@@ -119,7 +121,9 @@ namespace GameProject.TrickyTowers.Controller
             }
 
             _stuckTime += Time.deltaTime;
-            if (_stuckTime >= POSITION_STUCK_TIME)
+            if (_stuckTime >= POSITION_STUCK_TIME 
+                || _rigidBody.transform.position.x > _bounds.LimitRight.position.x
+                || _rigidBody.transform.position.x < _bounds.LimitLeft.position.x)
             {
                 DisableInput();
             }

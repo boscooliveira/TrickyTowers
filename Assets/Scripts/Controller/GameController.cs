@@ -38,24 +38,24 @@ namespace GameProject.TrickyTowers.Controller
         public void Pause()
         {
             _pauseScreen.gameObject.SetActive(true);
-            Physics2D.simulationMode = SimulationMode2D.Script;
+            Time.timeScale = 0;
         }
 
         public void Continue()
         {
             _pauseScreen.gameObject.SetActive(false);
-            Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+            Time.timeScale = 1;
         }
 
         public void Menu()
         {
             _pauseScreen.gameObject.SetActive(false);
-            Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
             ServiceFactory.Instance.Resolve<IUnityProxy>().EnterMenuScene();
         }
 
         private void Start()
         {
+            Time.timeScale = 1;
             var configService = ServiceFactory.Instance.Resolve<IGameConfigService>();
             var gameplayService = ServiceFactory.Instance.Resolve<IGameplayService>();
             var pieceConfig = configService.PieceConfig;

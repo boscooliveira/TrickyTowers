@@ -143,6 +143,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             }
             var piece = _nextPiece;
             _nextPiece = _pieceFactory.GetPiece();
+            _nextPiece.ResetToDefault();
             _nextPiece.gameObject.SetActive(false);
 
             if (_nextPieceRenderer != null)
@@ -151,11 +152,14 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             }
 
             _currentPiece = piece;
+            _currentPiece.ResetToDefault();
             _currentPiece.gameObject.SetActive(true);
-            piece.OnMoveFinished += OnPieceMoveFinished;
-            piece.OnDisabled += PieceLost;
-            _pieceHighlight.gameObject.SetActive(true);
+            _currentPiece.OnMoveFinished += OnPlacedPiece;
+            _currentPiece.OnDisabled += OnPieceLost;
+
             UpdateHighlight();
+            _pieceHighlight.gameObject.SetActive(true);
+            
             OnPieceChanged?.Invoke(piece);
         }
 
@@ -177,7 +181,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             _livesText.text = _playerData.Lives.ToString();
         }
 
-        private void PieceLost(IPoolableItem obj)
+        private void OnPieceLost(IPoolableItem obj)
         {
             _placedPieces.Remove(obj);
             GetHit();
@@ -188,7 +192,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             }
             else
             {
-                OnPieceMoveFinished(obj);
+                MoveToNextPiece(obj);
             }
         }
 
@@ -225,14 +229,19 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             highlightTransform.localScale = scale;
         }
 
-        private void OnPieceMoveFinished(IPoolableItem controller)
+        private void OnPlacedPiece(IPoolableItem controller)
+        {
+            _placedPieces.Add(_currentPiece);
+            MoveToNextPiece(controller);
+        }
+
+        private void MoveToNextPiece(IPoolableItem controller)
         {
             if (_playerData.Lives == 0)
                 return;
 
             if (_currentPiece == (object)controller)
             {
-                _placedPieces.Add(_currentPiece);
                 _currentPiece.SetSpeed(_config.SlowPace);
                 CreateNewPiece();
             }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d424f8ebee79ae44db61db1fb17ca465, type: 3}
   m_Name: GameplayConfigSO
   m_EditorClassIdentifier: 
-  _initialLives: 3
+  _initialLives: 5
   _ghostSecsAfterHit: 5
-  _goalHeight: 65
+  _goalHeight: 40
   _spawnerHeight: 95
