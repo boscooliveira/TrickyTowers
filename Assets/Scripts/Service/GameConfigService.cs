@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameProject.TrickyTowers.Service
 {
-    public interface IGameConfigService
+    public interface IGameConfigService : IService
     {
         IPieceFactoryConfig PieceConfig { get; }
         IPhysicsConfig PhysicsConfig { get; }

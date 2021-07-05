@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 744095532}
   - component: {fileID: 744095534}
   - component: {fileID: 744095535}
-  - component: {fileID: 744095533}
   m_Layer: 0
   m_Name: TestScene
   m_TagString: Untagged
@@ -178,25 +177,8 @@ MonoBehaviour:
   GameplayConfigSO: {fileID: 11400000, guid: e51027214f27dfc45b1ea74c55052388, type: 2}
   InGamePhysicsConfigSO: {fileID: 11400000, guid: 181aa70af8eec8c47acda504d2c79363, type: 2}
   PieceFactoryConfigSO: {fileID: 11400000, guid: 33677ded59b964946ac27ec2c6954efa, type: 2}
+  SimulationInput: 1
   _physicsMaterial2D: {fileID: 6200000, guid: d48be3d7f93f5a747a2210d8e9bebcd2, type: 2}
---- !u!114 &744095533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 744095530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da275e7e67fea7b489365d25c9bae29b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bounds:
-    SpawnerPosition: {fileID: 1791547104}
-    LimitLeft: {fileID: 363751285}
-    LimitRight: {fileID: 1967565868}
-    LimitBottom: {fileID: 1381749706}
-    Goal: {fileID: 1041476867}
 --- !u!114 &744095534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,11 +198,60 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744095530}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb966be5e52daf845a8f9ba5fe8bc672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &911118470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 911118472}
+  - component: {fileID: 911118471}
+  m_Layer: 0
+  m_Name: Gizmos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &911118471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911118470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da275e7e67fea7b489365d25c9bae29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds:
+    SpawnerPosition: {fileID: 1791547104}
+    LimitLeft: {fileID: 363751285}
+    LimitRight: {fileID: 1967565868}
+    LimitBottom: {fileID: 1381749706}
+    Goal: {fileID: 1041476867}
+--- !u!4 &911118472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911118470}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.987167, y: 1.0334406, z: -126.39297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1041476867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1041476867, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
@@ -238,6 +269,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 94236862793246865, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3268248119581874668, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -285,6 +320,10 @@ PrefabInstance:
     - target: {fileID: 9051524521935014001, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
       propertyPath: m_Name
       value: PlayerField
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051524521935014001, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}

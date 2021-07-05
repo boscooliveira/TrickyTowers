@@ -53,5 +53,25 @@ namespace GameProject.TrickyTowers.Config
             _angularDrag = other.AngularDrag;
             _constraints = other.Constraints;
         }
+
+        public void SetAngularDrag(float drag)
+        {
+            _angularDrag = drag;
+        }
+
+        public void SetLinearDrag(float drag)
+        {
+            _linearDrag = drag;
+        }
+
+        public void SetMass(float mass)
+        {
+            _mass = mass;
+        }
+
+        public void SetGravity(float force)
+        {
+            _constGravityForce = force;
+        }
     }
 }

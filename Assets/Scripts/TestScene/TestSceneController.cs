@@ -9,13 +9,13 @@ using System.Collections.Generic;
 
 namespace GameProject.TrickyTowers.TestScene
 {
-    [RequireComponent(typeof(GameBoundsGizmos))]
-    public class TestSceneController : MonoBehaviour, IUnityProxy, IGameConfigService, IPhysicsConfig, IGameplayConfig
+    public class TestSceneController : MonoBehaviour, IUnityProxy, IGameConfigService, IPhysicsConfig
     {
         public PlayerController PlayerController;
         public GameplayConfigSO GameplayConfigSO;
         public InGamePhysicsConfigSO InGamePhysicsConfigSO;
         public PieceFactoryConfigSO PieceFactoryConfigSO;
+        public EPlayerInputType SimulationInput;
 
         public float HorizontalMoveDistance { get; set; }
 
@@ -28,23 +28,15 @@ namespace GameProject.TrickyTowers.TestScene
 
         public List<PieceConfig> Pieces { get; set; }
 
-        public PiecePhysics BeforePlacedPhysics { get; set; }
+        public PiecePhysics BeforePlacedPhysics => InGamePhysicsConfigSO.BeforePlacedPhysics;
 
-        public PiecePhysics AfterPlacedPhysics { get; set; }
-
-        public int InitialLives { get; set; }
-
-        public float GhostSecsAfterHit { get; set; }
-
-        public float GoalHeight { get; set; }
+        public PiecePhysics AfterPlacedPhysics => InGamePhysicsConfigSO.AfterPlacedPhysics;
 
         public IPieceFactoryConfig PieceConfig { get; set; }
 
         public IPhysicsConfig PhysicsConfig { get; set; }
 
-        public IGameplayConfig GameplayConfig => this;
-
-        public float SpawnerMinDistance { get; set; }
+        public IGameplayConfig GameplayConfig => GameplayConfigSO;
 
         private IGameplayService _gameplay;
 
@@ -54,24 +46,22 @@ namespace GameProject.TrickyTowers.TestScene
             RegisterServices();
         }
 
-        private void LoadData()
+        public void LoadData()
         {
-            InitialLives = GameplayConfigSO.InitialLives;
-            GhostSecsAfterHit = GameplayConfigSO.GhostSecsAfterHit;
-            GoalHeight = GameplayConfigSO.GoalHeight;
-            SpawnerMinDistance = GameplayConfigSO.SpawnerMinDistance;
-
-            BeforePlacedPhysics = InGamePhysicsConfigSO.BeforePlacedPhysics;
-            AfterPlacedPhysics = InGamePhysicsConfigSO.AfterPlacedPhysics;
             PieceConfig = new TestFactoryConfig(PieceFactoryConfigSO);
         }
 
-        private void SaveData()
+        public void UpdatePositions(float goalHeight, float spawnerHeight)
         {
-            GameplayConfigSO.SetValues(InitialLives, GhostSecsAfterHit, GoalHeight, SpawnerMinDistance);
+            var bottom = PlayerController.Bounds.LimitBottom.position;
+            
+            var position = PlayerController.Bounds.Goal.position;
+            position.y = bottom.y + goalHeight;
+            PlayerController.Bounds.Goal.position = position;
 
-            InGamePhysicsConfigSO.BeforePlacedPhysics.CopyValues(BeforePlacedPhysics);
-            InGamePhysicsConfigSO.AfterPlacedPhysics.CopyValues(AfterPlacedPhysics);
+            position = PlayerController.Bounds.SpawnerPosition.position;
+            position.y = bottom.y + spawnerHeight;
+            PlayerController.Bounds.SpawnerPosition.position = position;
         }
 
         private void RegisterServices()
@@ -81,8 +71,13 @@ namespace GameProject.TrickyTowers.TestScene
             _gameplay = new GameplayService(this);
             ServiceFactory.Instance.Register<IGameplayService>(_gameplay);
 
+            if (SimulationInput == EPlayerInputType.RandomTargetAI)
+            {
+                GetComponent<ForceSceneView>().enabled = true;
+            }
+
             _gameplay.StartNewGame(false);
-            PlayerController.Initialize(PieceConfig, this, _gameplay, new TestPlayer(), OnGameOver);
+            PlayerController.Initialize(PieceConfig, this, _gameplay, new TestPlayer(SimulationInput), OnGameOver);
             PlayerController.gameObject.SetActive(true);
         }
 

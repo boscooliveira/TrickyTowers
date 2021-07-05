@@ -22,7 +22,7 @@ namespace GameProject.TrickyTowers.Service
             _services = new Dictionary<Type, object>();
         }
 
-        public void Register<T>(T obj)
+        public void Register<T>(T obj) where T : IService
         {
             Type type = typeof(T);
             if (!type.IsInterface)
@@ -38,7 +38,7 @@ namespace GameProject.TrickyTowers.Service
             _services[type] = obj;
         }
 
-        public T Resolve<T>(bool instantiateIfNull = false)
+        public T Resolve<T>(bool instantiateIfNull = false) where T : IService
         {
             Type type = typeof(T);
             _services.TryGetValue(type, out var service);
@@ -63,5 +63,9 @@ namespace GameProject.TrickyTowers.Service
             }
             _services.Clear();
         }
+    }
+
+    public interface IService
+    {
     }
 }

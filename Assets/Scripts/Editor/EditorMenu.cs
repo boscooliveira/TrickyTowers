@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using GameProject.TrickyTowers.TestScene.Editor;
 
 namespace GameProject.TrickyTowers.Editor
 {
@@ -24,7 +25,7 @@ namespace GameProject.TrickyTowers.Editor
             EditorApplication.isPlaying = true;
         }
 
-        [MenuItem("TrickyTowers/TestScene _%T")]
+        [MenuItem("TrickyTowers/TestScene/Enter", priority = 0)]
         static void EnterTestScene()
         {
             if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().name == "GameplayTest")
@@ -37,6 +38,7 @@ namespace GameProject.TrickyTowers.Editor
             }
 
             EditorSceneManager.OpenScene("Assets/Scenes/GameplayTest.unity");
+            GameConfigWindow.Init();
         }
 
         static EditorMenu()

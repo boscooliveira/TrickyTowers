@@ -2,7 +2,7 @@
 
 namespace GameProject.TrickyTowers.Service
 {
-    public interface IGameplayService
+    public interface IGameplayService : IService
     {
         void StartNewGame(bool multiplayer);
         IGameData GetGameData();

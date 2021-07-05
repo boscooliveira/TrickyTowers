@@ -7,7 +7,7 @@ namespace GameProject.TrickyTowers.Config
         int InitialLives { get; }
         float GhostSecsAfterHit { get; }
         float GoalHeight { get; }
-        float SpawnerMinDistance { get; }
+        float SpawnerHeight { get; }
     }
 
     [CreateAssetMenu(fileName = "GameplayConfigSO", menuName = "TrickyTowersJoao/GameplayConfig")]
@@ -20,19 +20,39 @@ namespace GameProject.TrickyTowers.Config
         [SerializeField]
         private float _goalHeight;
         [SerializeField]
-        private float _spawnerMinDistance;
+        private float _spawnerHeight;
 
         public int InitialLives => _initialLives;
         public float GhostSecsAfterHit => _ghostSecsAfterHit;
         public float GoalHeight => _goalHeight;
-        public float SpawnerMinDistance => _spawnerMinDistance;
+        public float SpawnerHeight => _spawnerHeight;
 
-        public void SetValues(int initialLives, float ghostSecsAfterHit, float goalHeight, float spawnerMinDistance)
+        public void SetValues(int initialLives, float ghostSecsAfterHit, float goalHeight, float spawnerHeight)
         {
             _initialLives = initialLives;
             _ghostSecsAfterHit = ghostSecsAfterHit;
             _goalHeight = goalHeight;
-            _spawnerMinDistance = spawnerMinDistance;
+            _spawnerHeight = spawnerHeight;
+        }
+
+        public void SetInitialLives(int value)
+        {
+            _initialLives = value;
+        }
+
+        public void SetGoalHeight(float value)
+        {
+            _goalHeight = value;
+        }
+
+        public void SetSpawnerMinDistance(float value)
+        {
+            _spawnerHeight = value;
+        }
+
+        public void SetGhostSecsAfterHit(float value)
+        {
+            _ghostSecsAfterHit = value;
         }
     }
 }

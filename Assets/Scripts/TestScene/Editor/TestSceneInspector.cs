@@ -1,15 +1,26 @@
 ﻿using UnityEditor;
-using UnityEngine.UIElements;
+using UnityEngine;
 
 namespace GameProject.TrickyTowers.TestScene.Editor
 {
     [CustomEditor(typeof(TestSceneController))]
     public class TestSceneInspector : UnityEditor.Editor
     {
-        public override VisualElement CreateInspectorGUI()
+        public override void OnInspectorGUI()
         {
-            VisualElement label = new Label("This is a Label in a Custom Editor");
-            return label;
+            DrawDefaultInspector();
+
+            if (GUILayout.Button("Open Config Window"))
+            {
+                OpenConfigWindow(target as TestSceneController);
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void OpenConfigWindow(TestSceneController testSceneController)
+        {
+            GameConfigWindow.Init();
         }
     }
 }

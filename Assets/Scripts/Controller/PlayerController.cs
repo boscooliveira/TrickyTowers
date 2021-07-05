@@ -45,17 +45,15 @@ namespace GameProject.TrickyTowers.Controller
         [SerializeField]
         private TextMeshProUGUI _livesText;
 
-        private PieceFactory _pieceFactory;
+        public PlayerAreaBoundaries Bounds => _bounds;
 
+        private PieceFactory _pieceFactory;
         private PieceController _currentPiece;
         private PieceController _nextPiece;
-
         private HashSet<IPoolableItem> _placedPieces;
-
         private IPieceFactoryConfig _config;
         private float _ghostTime;
         private IGameplayConfig _gameplayConfig;
-
         private IPlayerData _playerData;
         private GameController.OnGameOverDelegate _onGameOver;
 
@@ -122,7 +120,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
                 return;
 
             _currentPiece.Rotate();
-            UpdateHighLight();
+            UpdateHighlight();
         }
 
         public PieceController GetPiece()
@@ -132,6 +130,12 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         private void CreateNewPiece()
         {
+            if (GetPileHeight() > _bounds.Goal.position.y)
+            {
+                GameOver();
+                return;
+            }
+
             if (_nextPiece == null)
             {
                 _nextPiece = _pieceFactory.GetPiece();
@@ -150,13 +154,8 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             piece.OnMoveFinished += OnPieceMoveFinished;
             piece.OnDisabled += PieceLost;
             _pieceHighlight.gameObject.SetActive(true);
-            UpdateHighLight();
+            UpdateHighlight();
             OnPieceChanged?.Invoke(piece);
-
-            var minY = GetPileHeight() + _gameplayConfig.SpawnerMinDistance;
-            var position = _camera.transform.position;
-            position.y = Mathf.Max(position.y, minY);
-            _camera.transform.position = position;
         }
 
         private void GetHit()
@@ -198,7 +197,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             enabled = false;
         }
 
-        private void UpdateHighLight()
+        private void UpdateHighlight()
         {
             var bounds = _currentPiece.GetBounds();
             var highlightTransform = _pieceHighlight.transform;
@@ -231,7 +230,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
                 return;
 
             _currentPiece.Move(input);
-            UpdateHighLight();
+            UpdateHighlight();
         }
 
         private void Update()
