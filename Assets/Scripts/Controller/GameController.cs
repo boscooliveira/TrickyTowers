@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using GameProject.TrickyTowers.Service;
 using GameProject.TrickyTowers.Engine;
 using GameProject.TrickyTowers.Model;
@@ -21,7 +22,7 @@ namespace GameProject.TrickyTowers.Controller
         private Transform _pauseScreen;
 
         [SerializeField]
-        private Transform _opponentView;
+        private Image _opponentView;
 
         private IGameData _gameData;
 
@@ -70,7 +71,10 @@ namespace GameProject.TrickyTowers.Controller
                 var playerController = Instantiate(_playerControllerPrefab);
                 playerController.transform.position = new Vector3(0, 1000, 0);
                 playerController.Initialize(pieceConfig, physicsConfig, gameplayService, _gameData.Opponent, OnGameOver);
-                playerController.SetSmallCameraProperties();
+                RenderTexture rt = new RenderTexture(256, 512, 8, RenderTextureFormat.ARGB32);
+                rt.Create();
+                playerController.SetRenderTexture(rt);
+                _opponentView.material.mainTexture = rt;
             }
         }
     }

@@ -5,9 +5,7 @@ using GameProject.TrickyTowers.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 using System;
-using System.Collections.Generic;
 using GameProject.TrickyTowers.Model.AIAlgorithm;
 
 namespace GameProject.TrickyTowers.Controller
@@ -48,17 +46,17 @@ namespace GameProject.TrickyTowers.Controller
         private PieceFactory _pieceFactory;
         private PieceController _currentPiece;
         private PieceController _nextPiece;
-        private HashSet<IPoolableItem> _placedPieces;
         private IPieceFactoryConfig _config;
         private float _ghostTime;
         private IGameplayConfig _gameplayConfig;
         private IPlayerData _playerData;
         private GameController.OnGameOverDelegate _onGameOver;
+        private bool _gameOver;
 
         public void Initialize(IPieceFactoryConfig pieceFactoryConfig, IPhysicsConfig physicsConfig,
 Service.IGameplayService gameplayService, IPlayerData playerData, GameController.OnGameOverDelegate onGameOver)
         {
-            _placedPieces = new HashSet<IPoolableItem>();
+            _gameOver = false;
             _onGameOver = onGameOver;
             _config = pieceFactoryConfig;
             _gameplayConfig = gameplayService.GetGameData().Config;
@@ -68,18 +66,9 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
             DisplayLife();
         }
 
-        public float GetPileHeight()
+        public void SetRenderTexture(RenderTexture renderTexture)
         {
-            if (_placedPieces.Count == 0)
-                return _bounds.LimitBottom.position.y;
-
-            var maxY = _placedPieces.Max(i => ((PieceController)i).GetPieceHeight());
-            return Mathf.Max(maxY, _bounds.LimitBottom.position.y);
-        }
-
-        public void SetSmallCameraProperties()
-        {
-            _camera.targetTexture = _renderTexture;
+            _camera.targetTexture = renderTexture;
         }
 
         private void SetupPlayer(IPlayerData playerData)
@@ -117,7 +106,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         public void RotatePiece()
         {
-            if (_currentPiece == null)
+            if (_gameOver)
                 return;
 
             _currentPiece.Rotate();
@@ -131,7 +120,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         private void CreateNewPiece()
         {
-            if (GetPileHeight() > _bounds.Goal.position.y)
+            if (_bounds.Goal.IsColliding())
             {
                 GameOver();
                 return;
@@ -183,7 +172,6 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         private void OnPieceLost(IPoolableItem obj)
         {
-            _placedPieces.Remove(obj);
             GetHit();
 
             if (_playerData.Lives == 0)
@@ -200,9 +188,9 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
         {
             var bottom = _bounds.LimitBottom.position;
 
-            var position = _bounds.Goal.position;
+            var position = _bounds.Goal.transform.position;
             position.y = bottom.y + goalHeight;
-            _bounds.Goal.position = position;
+            _bounds.Goal.transform.position = position;
 
             position = _bounds.SpawnerPosition.position;
             position.y = bottom.y + spawnerHeight;
@@ -211,6 +199,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         private void GameOver()
         {
+            _gameOver = true;
             _onGameOver(_playerData, this);
             enabled = false;
         }
@@ -231,13 +220,12 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         private void OnPlacedPiece(IPoolableItem controller)
         {
-            _placedPieces.Add(_currentPiece);
             MoveToNextPiece(controller);
         }
 
         private void MoveToNextPiece(IPoolableItem controller)
         {
-            if (_playerData.Lives == 0)
+            if (_gameOver)
                 return;
 
             if (_currentPiece == (object)controller)
@@ -249,7 +237,7 @@ Service.IGameplayService gameplayService, IPlayerData playerData, GameController
 
         public void MovePiece(Vector2 input)
         {
-            if (_currentPiece == null)
+            if (_currentPiece == null || _gameOver)
                 return;
 
             _currentPiece.Move(input);

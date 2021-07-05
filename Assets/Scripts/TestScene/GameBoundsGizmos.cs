@@ -23,7 +23,7 @@ namespace GameProject.TrickyTowers.TestScene
             var defaultColor = Gizmos.color;
 
             var spawnerPosition = _bounds.SpawnerPosition.position;
-            var goalPosition = _bounds.Goal.position;
+            var goalPosition = _bounds.Goal.transform.position;
 
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(spawnerPosition, 3);

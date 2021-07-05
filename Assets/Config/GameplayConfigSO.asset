@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialLives: 5
   _ghostSecsAfterHit: 5
-  _goalHeight: 40
+  _goalHeight: 60
   _spawnerHeight: 95

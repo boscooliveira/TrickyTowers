@@ -16,7 +16,7 @@ namespace GameProject.TrickyTowers.TestScene.Editor
             var window = (GameConfigWindow) GetWindow(
                 typeof(GameConfigWindow), 
                 false, 
-                "Test Scene Config", true);
+                "Game Setup", true);
 
             _testScene = FindObjectOfType<TestSceneController>();
             if (_testScene == null)

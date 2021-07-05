@@ -211,7 +211,7 @@ MonoBehaviour:
     LimitLeft: {fileID: 363751285}
     LimitRight: {fileID: 1967565868}
     LimitBottom: {fileID: 1381749706}
-    Goal: {fileID: 1041476867}
+    Goal: {fileID: 1771767194}
 --- !u!4 &911118472
 Transform:
   m_ObjectHideFlags: 0
@@ -226,11 +226,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1041476867 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1041476867, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
-  m_PrefabInstance: {fileID: 1771767191}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1381749706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 118810081, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
@@ -251,6 +246,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 614689778702027240, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+      propertyPath: _bounds.Goal
+      value: 
+      objectReference: {fileID: 1771767194}
     - target: {fileID: 614689778702027241, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -326,6 +325,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b7998300e9516e4f8cb3cf8e2478814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1771767194 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 959911412785686436, guid: 4fd3a1ca8b5c7e54c9ec2a324bd186c4, type: 3}
+  m_PrefabInstance: {fileID: 1771767191}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18c418e3050e904fb0d88e897a0755e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1791547104 stripped

@@ -1470,7 +1470,7 @@ MonoBehaviour:
   _player1: {fileID: 861821815}
   _gameOverScreen: {fileID: 611400777}
   _pauseScreen: {fileID: 1450301605}
-  _opponentView: {fileID: 2107071841}
+  _opponentView: {fileID: 2107071842}
 --- !u!4 &839468698
 Transform:
   m_ObjectHideFlags: 0
